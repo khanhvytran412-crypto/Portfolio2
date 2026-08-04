@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Khanh Vy — Portfolio Editor</title>
+<meta name="description" content="Khanh Vy — Freelance Video Editor. Long-form tiếng Anh, short-form song ngữ, kể chuyện thương hiệu, affiliate & quảng cáo.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,500&family=Be+Vietnam+Pro:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --paper:   #ffffff;
+  --blue:    #c6d8f5;   /* soft periwinkle section */
+  --blue-lo: #e4eefc;
+  --lime:    #e5ec98;   /* pale yellow-green */
+  --lime-lo: #f1f5c9;
+  --cream:   #faf7ee;
+  --ink:     #12151b;   /* near-black text / footer */
+  --muted:   #5b6472;
+  --line:    rgba(18,21,27,0.12);
+  --accent:  #e8562f;   /* warm orange-red accent from template family */
+}
+
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Be Vietnam Pro', sans-serif;
+  background: var(--paper);
+  color: var(--ink);
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+.serif { font-family: 'Playfair Display', serif; font-weight: 500; }
+::selection { background: var(--ink); color: #fff; }
+img { max-width: 100%; display: block; }
+
+/* ---------- layout helpers ---------- */
+.wrap { max-width: 1080px; margin: 0 auto; padding: 0 2rem; }
+.section { padding: 5.5rem 0; }
+.bg-white { background: var(--paper); }
+.bg-blue  { background: linear-gradient(180deg, #d7e4fa 0%, var(--blue) 100%); }
+.bg-lime  { background: linear-gradient(180deg, var(--lime-lo) 0%, var(--lime) 100%); }
+.bg-cream { background: var(--cream); }
+
+.display {
+  font-family: 'Playfair Display', serif;
+  font-weight: 600;
+  line-height: 1.02;
+  letter-spacing: -0.01em;
+  font-size: clamp(2.8rem, 9vw, 6rem);
+}
+.eyebrow {
+  font-size: 12px; font-weight: 600; letter-spacing: 0.22em;
+  text-transform: uppercase; color: var(--muted); margin-bottom: 1rem;
+}
+
+/* ---------- nav ---------- */
+nav {
+  position: sticky; top: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 1.1rem 2rem;
+  background: rgba(255,255,255,0.7);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+.nav-logo { font-family: 'Playfair Display', serif; font-weight: 700; font-size: 20px; }
+.nav-links { display: flex; gap: 1.6rem; }
+.nav-links a { font-size: 14px; color: var(--ink); text-decoration: none; opacity: 0.8; transition: opacity .2s; }
+.nav-links a:hover { opacity: 1; }
+
+/* ---------- hero ---------- */
+.hero { padding: 2.5rem 0 4rem; }
+.hero-grid {
+  display: grid; grid-template-columns: 0.85fr 1.15fr;
+  gap: 2.5rem; align-items: center;
+}
+.hero-portrait { aspect-ratio: 3/4; border-radius: 4px; }
+.hero-title { position: relative; }
+.sparkle { font-size: 2.2rem; color: var(--ink); margin-bottom: 0.5rem; opacity: 0.85; }
+.hero-title h1 { font-size: clamp(3rem, 11vw, 7rem); }
+.hero-name {
+  margin-top: 1.25rem; font-size: 15px; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--muted); font-weight: 600;
+}
+
+/* full-width portrait band */
+.band-photo { padding: 0 0 1rem; }
+.portrait-wide { aspect-ratio: 16/11; border-radius: 4px; }
+
+/* ---------- about ---------- */
+.about-inner { max-width: 900px; }
+.about-inner .display { margin-bottom: 1.75rem; }
+.about-inner p { font-size: clamp(1.05rem, 2.2vw, 1.4rem); max-width: 720px; margin-bottom: 1.1rem; }
+
+/* ---------- personal skill ---------- */
+.skill-head { text-align: left; margin-bottom: 2.5rem; }
+.skills-list { max-width: 760px; margin: 0 auto; display: flex; flex-direction: column; gap: 1.4rem; }
+.skill-row { display: grid; grid-template-columns: 190px 1fr; gap: 1.25rem; align-items: center; }
+.skill-name {
+  display: flex; align-items: center; gap: 10px;
+  font-weight: 600; font-size: 15px;
+}
+.skill-badge {
+  width: 34px; height: 34px; border-radius: 9px; flex-shrink: 0;
+  background: #fff; box-shadow: 0 3px 10px rgba(18,21,27,0.12);
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Playfair Display', serif; font-weight: 700; font-size: 16px; color: var(--ink);
+}
+.bar { height: 12px; background: rgba(255,255,255,0.65); border-radius: 99px; overflow: hidden; }
+.bar > i { display: block; height: 100%; background: var(--ink); border-radius: 99px; }
+.skill-note { max-width: 760px; margin: 2.25rem auto 0; font-size: 13px; color: var(--muted); text-align: center; }
+
+/* ---------- video sections ---------- */
+.videos .display { margin-bottom: 0.4rem; }
+.videos .sub { color: var(--muted); margin-bottom: 2.5rem; font-size: 15px; }
+.vgrid { display: grid; gap: 1.6rem; }
+.vgrid.g2 { grid-template-columns: repeat(2, 1fr); max-width: 920px; margin: 0 auto; }   /* 16:9 → 2/hàng */
+.vgrid.g3 { grid-template-columns: repeat(3, 1fr); max-width: 820px; margin: 0 auto; }   /* 9:16 → 3/hàng */
+.vgrid + .vgrid { margin-top: 1.6rem; }
+.vcard { cursor: pointer; transition: transform .22s ease; }
+.vcard:hover { transform: translateY(-4px); }
+.vthumb {
+  position: relative; border-radius: 12px; overflow: hidden;
+  background: #e7e2d4; box-shadow: 0 10px 30px rgba(18,21,27,0.14);
+}
+.vthumb.h { aspect-ratio: 16/9; }
+.vthumb.v { aspect-ratio: 9/16; }
+.vthumb iframe { width: 100%; height: 100%; border: 0; display: block; }
+
+/* blank image zones (để trống cho bạn tự gắn hình) */
+.img-zone { background: rgba(18,21,27,0.05); border-radius: 6px; overflow: hidden; }
+.img-zone > img { width: 100%; height: 100%; object-fit: cover; object-position: center; display: block; }
+.hl { background: linear-gradient(transparent 55%, rgba(229,236,152,0.9) 55%); padding: 0 3px; font-weight: 600; }
+.about-grid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 3rem; align-items: center; }
+.about-photo { aspect-ratio: 4/5; background: transparent; }
+.vthumb img { width: 100%; height: 100%; object-fit: cover; }
+.vthumb .ph {
+  position: absolute; inset: 0; display: flex; flex-direction: column;
+  align-items: center; justify-content: center; gap: 8px; color: #fff; text-align: center; padding: 1rem;
+}
+.vthumb .ph-title { font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 600; }
+.vplay {
+  position: absolute; inset: 0; margin: auto;
+  width: 60px; height: 60px; border-radius: 50%;
+  background: rgba(255,255,255,0.92); color: var(--ink);
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+  opacity: 0.92; transition: transform .2s, opacity .2s;
+}
+.vcard:hover .vplay { transform: scale(1.08); opacity: 1; }
+.vplay svg { width: 22px; height: 22px; margin-left: 3px; fill: var(--ink); }
+.vlang {
+  position: absolute; top: 10px; left: 10px;
+  background: rgba(18,21,27,0.72); color: #fff; backdrop-filter: blur(4px);
+  font-size: 11px; font-weight: 600; letter-spacing: 0.04em;
+  padding: 3px 9px; border-radius: 6px;
+}
+.vmeta { padding: 0.85rem 0.25rem 0; text-align: center; }
+.vtitle { font-size: 15px; font-weight: 600; line-height: 1.4; }
+
+/* ---------- services ---------- */
+.services .display { margin-bottom: 2rem; }
+.service-card {
+  background: #fff; border-radius: 26px; padding: 2.75rem;
+  max-width: 820px; box-shadow: 0 20px 50px rgba(18,21,27,0.10);
+}
+.service-card p { font-size: clamp(1.1rem, 2.4vw, 1.5rem); line-height: 1.55; }
+.service-card p + p { margin-top: 1rem; }
+.service-card b { font-weight: 700; }
+
+/* ---------- contact ---------- */
+.contact { position: relative; overflow: hidden; }
+.contact .display { margin-bottom: 2rem; position: relative; z-index: 2; }
+.contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2.5rem; align-items: center; position: relative; z-index: 1; }
+.cutout { aspect-ratio: 4/5; border-radius: 4px; background: transparent; }
+.contact-card {
+  background: linear-gradient(135deg, var(--blue-lo) 0%, var(--lime) 120%);
+  border-radius: 20px; padding: 2rem;
+}
+.contact-line { font-size: 16px; padding: 0.65rem 0; border-bottom: 1px solid rgba(18,21,27,0.12); }
+.contact-line:last-of-type { border-bottom: none; }
+.contact-line b { font-weight: 600; }
+.contact-btns { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 1.5rem; }
+.cbtn {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 11px 20px; border-radius: 99px; font-size: 14px; font-weight: 600;
+  text-decoration: none; color: #fff; transition: transform .18s;
+}
+.cbtn:hover { transform: translateY(-2px); }
+.cbtn svg { width: 17px; height: 17px; }
+.c-zalo { background: #0068FF; }
+.c-fb { background: #1877F2; }
+.c-mail { background: var(--ink); }
+
+/* ---------- photo slot (+) ---------- */
+.photo-slot {
+  position: relative;
+  border: 2px dashed rgba(18,21,27,0.3);
+  background: rgba(18,21,27,0.03);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 10px; text-align: center; padding: 2rem 1.25rem; color: var(--muted);
+  transition: border-color .2s, color .2s;
+}
+.photo-slot:hover { border-color: var(--accent); color: var(--accent); }
+.photo-slot > img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.photo-slot .plus {
+  width: 52px; height: 52px; border-radius: 50%;
+  border: 1.5px solid currentColor; color: var(--accent);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 30px; font-weight: 300; line-height: 1;
+}
+.photo-slot .slot-label { font-weight: 600; font-size: 13px; letter-spacing: 0.04em; color: var(--ink); }
+.photo-slot .slot-hint { font-size: 12px; color: var(--muted); max-width: 240px; line-height: 1.5; }
+
+/* ---------- footer ---------- */
+footer {
+  background: var(--ink); color: rgba(255,255,255,0.75);
+  padding: 1.4rem 2rem; display: flex; align-items: center; justify-content: space-between;
+  flex-wrap: wrap; gap: 1rem; font-size: 13px;
+}
+footer .foot-links { display: flex; gap: 1.5rem; }
+footer a { color: rgba(255,255,255,0.75); text-decoration: none; }
+footer a:hover { color: #fff; }
+footer .foot-name { font-family: 'Playfair Display', serif; color: #fff; }
+
+/* ---------- lightbox ---------- */
+.lightbox {
+  display: none; position: fixed; inset: 0; z-index: 9999;
+  background: rgba(18,21,27,0.78); backdrop-filter: blur(6px);
+  align-items: center; justify-content: center; padding: 1rem;
+}
+.lightbox.open { display: flex; }
+.lb-inner {
+  background: #fff; border-radius: 18px; overflow: hidden;
+  width: 100%; max-width: 760px; position: relative; animation: lb .22s ease;
+  box-shadow: 0 30px 80px rgba(0,0,0,0.4);
+}
+@keyframes lb { from { opacity:0; transform: scale(.96);} to { opacity:1; transform: scale(1);} }
+.lb-close {
+  position: absolute; top: 12px; right: 12px; z-index: 10;
+  width: 34px; height: 34px; border-radius: 50%; border: none; cursor: pointer;
+  background: rgba(0,0,0,0.5); color: #fff; font-size: 16px;
+  display: flex; align-items: center; justify-content: center; transition: background .15s;
+}
+.lb-close:hover { background: var(--accent); }
+.lb-video { aspect-ratio: 16/9; width: 100%; background: #000; overflow: hidden; }
+.lb-video.vertical { height: min(72vh, 640px); aspect-ratio: 9/16; width: auto; max-width: 92vw; margin: 0 auto; }
+.lb-video iframe { width: 100%; height: 100%; border: none; display: block; }
+/* Bù độ lệch của trình phát Google Drive cho video dọc (dịch phải + zoom nhẹ để lấp đầy) */
+.lb-video.drive-fix iframe { transform: translateX(-4%) scale(1.04); }
+.lb-info { padding: 18px 22px 22px; max-height: 300px; overflow-y: auto; }
+.lb-badge {
+  display: inline-block; background: var(--blue-lo); color: var(--ink);
+  font-size: 11px; font-weight: 700; padding: 4px 12px; border-radius: 6px;
+  margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.05em;
+}
+.lb-title { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 600; margin-bottom: 4px; }
+.lb-message { font-size: 14px; color: #444; line-height: 1.65; margin: 8px 0 14px; font-style: italic; border-left: 3px solid var(--accent); padding-left: 12px; }
+.lb-process-wrap { margin-bottom: 14px; }
+.lb-process-label { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
+.lb-process-steps { display: flex; flex-wrap: wrap; gap: 6px; }
+.lb-step { display: flex; align-items: center; gap: 5px; font-size: 12px; font-weight: 500; color: #555; }
+.lb-step-dot { width: 22px; height: 22px; background: var(--blue-lo); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 700; color: var(--ink); }
+.lb-step-arrow { color: var(--muted); font-size: 12px; }
+.lb-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+.lb-tag { background: #f1eee4; color: #555; font-size: 11px; font-weight: 500; padding: 4px 10px; border-radius: 99px; }
+
+/* ---------- responsive ---------- */
+@media (max-width: 820px) {
+  .section { padding: 4rem 0; }
+  .hero-grid { grid-template-columns: 1fr; gap: 1.75rem; }
+  .hero-portrait { max-width: 360px; }
+  .about-grid { grid-template-columns: 1fr; gap: 1.75rem; }
+  .contact-grid { grid-template-columns: 1fr; }
+  .cutout { transform: none; }
+  .cutout img { position: static !important; left: auto !important; bottom: auto !important; width: 100% !important; height: 100% !important; }
+  .skill-row { grid-template-columns: 150px 1fr; gap: 0.9rem; }
+}
+@media (max-width: 760px) {
+  .vgrid.g2 { grid-template-columns: 1fr; max-width: 460px; }
+  .vgrid.g3 { grid-template-columns: repeat(2, 1fr); max-width: 460px; }
+}
+@media (max-width: 520px) {
+  .wrap { padding: 0 1.25rem; }
+  .service-card { padding: 1.75rem; }
+  .skill-row { grid-template-columns: 1fr; gap: 0.5rem; }
+  footer { flex-direction: column; text-align: center; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">Khanh Vy</div>
+  <div class="nav-links">
+    <a href="#about">About</a>
+    <a href="#work">Portfolio</a>
+    <a href="#contact">Liên hệ</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero bg-blue">
+  <div class="wrap hero-grid">
+    <!-- [ẢNH 1] Ảnh chân dung. Để đổi ảnh: thay file "hero.jpg" trong cùng thư mục.
+         Chỉnh vị trí/cắt: sửa object-fit (cover=lấp đầy, contain=hiện trọn) & object-position (vd: "center 20%"). -->
+    <div class="img-zone hero-portrait">
+      <img src="hero.jpg" alt="Khanh Vy" style="object-fit:cover; object-position:center;" onerror="this.style.display='none'">
+    </div>
+    <div class="hero-title">
+      <div class="sparkle">✦</div>
+      <h1 class="serif">Portfolio<br>Editor</h1>
+      <div class="hero-name">Khanh Vy · Freelance Video Editor</div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT (trang 2: chữ 1 bên · ô ảnh trống 1 bên) -->
+<section class="section bg-white" id="about">
+  <div class="wrap about-grid">
+    <div class="about-inner">
+      <h2 class="display">About Me</h2>
+      <p>Xin chào, mình là <b>Khanh Vy</b> — một Freelance Video Editor. Định hướng của mình không chỉ dừng lại ở việc tạo ra các sản phẩm bắt mắt.</p>
+      <p>Với mình, mỗi video là một công cụ giúp <span class="hl">kể câu chuyện thương hiệu</span>, <span class="hl">tăng độ nhận diện</span>, giữ chân người xem và <span class="hl">thúc đẩy hành động</span>.</p>
+    </div>
+    <!-- [ẢNH 2] Ảnh cắt nền cạnh About. Để đổi ảnh: thay file "about.png" trong cùng thư mục.
+         Chỉnh vị trí/cắt: sửa object-fit & object-position bên dưới. -->
+    <div class="img-zone about-photo">
+      <img src="about.png" alt="Khanh Vy" style="object-fit:cover; object-position:center 18%;" onerror="this.style.display='none'">
+    </div>
+  </div>
+</section>
+
+<!-- PERSONAL SKILL: title -->
+<section class="bg-white band-photo">
+  <div class="wrap" style="padding-top:3.5rem;">
+    <h2 class="display">Personal skill</h2>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section class="section bg-lime">
+  <div class="wrap">
+    <div class="skills-list" id="skills-list"></div>
+  </div>
+</section>
+
+<!-- WORK / VIDEO SECTIONS -->
+<div id="work"></div>
+<div id="video-sections"></div>
+
+<!-- SERVICES -->
+<section class="section bg-lime services">
+  <div class="wrap">
+    <h2 class="display">Những gì mình<br>có thể làm cho bạn</h2>
+    <div class="service-card">
+      <p><b>Tạo ra những video thực sự mang lại giá trị</b> — không phải những sản phẩm hời hợt.</p>
+      <p>Thay vì chỉ cắt ghép kỹ thuật, mình lồng ghép <b>tư duy truyền thông</b> để biến mỗi sản phẩm thành một câu chuyện có chiều sâu, chuẩn định hướng kênh và giữ chân người xem hiệu quả.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="section bg-blue contact" id="contact">
+  <div class="wrap">
+    <h2 class="display">Contact for work</h2>
+    <div class="contact-grid">
+      <!-- [ẢNH 3] Ảnh cắt nền ở Contact. Để đổi ảnh: thay file "contact.png" trong cùng thư mục.
+           Ảnh cắt nền nên để object-fit:contain (hiện trọn người, không cắt). -->
+      <div class="img-zone cutout">
+        <img src="contact.png" alt="Khanh Vy" style="position:absolute; left:24px; bottom:0; height:760px; width:auto; object-fit:contain; object-position:center bottom;" onerror="this.style.display='none'">
+      </div>
+      <div class="contact-card">
+        <div class="contact-line"><b>SĐT / Zalo:</b> 0365378921</div>
+        <div class="contact-line"><b>Email:</b> khanhvytran412@gmail.com</div>
+        <div class="contact-line"><b>Facebook:</b> facebook.com/chimuonlam.motconcauopmuoi</div>
+        <div class="contact-btns">
+          <a href="https://zalo.me/0365378921" target="_blank" class="cbtn c-zalo">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.03 2 11c0 2.95 1.54 5.57 3.96 7.28L5 21l3.18-1.58C9.36 19.79 10.66 20 12 20c5.52 0 10-4.03 10-9S17.52 2 12 2z"/></svg>Zalo</a>
+          <a href="https://www.facebook.com/chimuonlam.motconcauopmuoi/" target="_blank" class="cbtn c-fb">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.07C24 5.44 18.63.07 12 .07S0 5.44 0 12.07c0 5.99 4.39 10.95 10.13 11.85v-8.38H7.08v-3.47h3.05V9.43c0-3.01 1.79-4.67 4.53-4.67 1.31 0 2.69.24 2.69.24v2.95h-1.51c-1.49 0-1.96.93-1.96 1.87v2.25h3.33l-.53 3.47h-2.8v8.38C19.61 23.02 24 18.06 24 12.07z"/></svg>Facebook</a>
+          <a href="mailto:khanhvytran412@gmail.com" class="cbtn c-mail">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,12 2,6"/></svg>Email</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="foot-links">
+    <a href="#about">About</a>
+    <a href="#work">Portfolio</a>
+    <a href="#contact">Liên hệ</a>
+  </div>
+  <div>© 2025 <span class="foot-name">Khanh Vy</span> · Video Editor</div>
+</footer>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox">
+  <div class="lb-inner">
+    <button class="lb-close" id="lb-close">✕</button>
+    <div class="lb-video"><iframe id="lb-iframe" src="" allowfullscreen allow="autoplay; encrypted-media"></iframe></div>
+    <div class="lb-info">
+      <div class="lb-badge" id="lb-badge"></div>
+      <div class="lb-title" id="lb-title"></div>
+      <div class="lb-message" id="lb-message"></div>
+      <div class="lb-tags" id="lb-tags"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ---------- SKILLS (phần mềm sử dụng) — bạn tự chỉnh lại ---------- */
+const SKILLS = [
+  { name: 'CapCut', badge: 'Cc', pct: 95 },
+  { name: 'Canva', badge: 'Ca', pct: 92 },
+  { name: 'AI Tools (Voice / Image)', badge: 'Ai', pct: 88 }
+];
+
+/* ---------- VIDEO DATA ---------- */
+const CAT = {
+  'podcast': 'Podcast',
+  'knowledge': 'Chia sẻ kiến thức',
+  'event': 'Quảng cáo sự kiện',
+  'teaser': 'Teaser',
+  'meme': 'Meme',
+  'brand': 'Thương hiệu',
+  'affiliate': 'Affiliate',
+  'ad': 'Quảng cáo'
+};
+/* thứ tự + tiêu đề serif cho từng section video */
+const SECTIONS = [
+  { cat: 'podcast',   title: 'video podcast',              sub: 'Podcast dài, edit sạch, giữ mạch câu chuyện' },
+  { cat: 'knowledge', title: 'video chia sẻ kiến thức',    sub: 'Nội dung giáo dục, dễ hiểu, giữ chân người xem' },
+  { cat: 'event',     title: 'video quảng cáo sự kiện',    sub: 'Nhịp nhanh, cảm xúc, lan tỏa cho sự kiện' },
+  { cats: ['teaser','meme'], title: 'video teaser & meme', sub: 'Teaser tạo tò mò · meme bắt trend, tăng tương tác' },
+  { cat: 'brand',     title: 'video kể chuyện thương hiệu', sub: 'Trọn gói kịch bản · voice · edit — Đồ Gỗ Văn Ngưu' },
+  { cat: 'ad',        title: 'video quảng cáo',            sub: 'Video quảng cáo sản phẩm' }
+];
+
+const PROC = {
+  long: ['Nhận file raw & script', 'Dựng & chọn nhịp kể', 'B-roll & minh họa', 'Caption chuẩn EN', 'Chỉnh màu & xuất'],
+  short: ['Chọn hook 3 giây đầu', 'Cắt nhịp nhanh', 'Caption động', 'Sound design', 'Tối ưu Reels/TikTok/Shorts'],
+  brand: ['Nghiên cứu thương hiệu', 'Xây dựng narrative', 'Edit cảm xúc & nhịp thở', 'Nhạc & sound design', 'Tối ưu mạng xã hội'],
+  story: ['Lên ý tưởng & kịch bản', 'Thu âm giọng đọc (voice)', 'Dựng theo mạch cảm xúc', 'Nhạc & sound design', 'Tối ưu cho TikTok'],
+  affiliate: ['Nghiên cứu sản phẩm', 'Viết hook & kịch bản bán', 'Edit demo & điểm nổi bật', 'Caption & CTA mua hàng', 'Tối ưu cho từng nền tảng'],
+  ad: ['Nghiên cứu sản phẩm & insight', 'Kịch bản & hook quảng cáo', 'Dựng hình & đồ họa', 'Text bán hàng & CTA', 'Xuất đa kích thước ads']
+};
+
+const VIDEOS = [
+  /* ===== PODCAST (16:9) ===== */
+  { title: 'Podcast — tập 1', cat: 'podcast', lang: 'VI', url: 'https://drive.google.com/file/d/1i9h7rltqcPJ2grifCHM0FQii1IMptma7/view', message: 'Video podcast dài — thử thách lớn nhất là giữ người nghe ở lại đến cuối. Mình edit sạch tiếng, giữ mạch câu chuyện, chèn b-roll và caption đúng lúc để nội dung không bị "phẳng".', process: PROC.long, tags: ['Podcast','Long-form','Edit sạch','Caption','B-roll'] },
+  { title: 'Podcast — tập 2', cat: 'podcast', lang: 'VI', url: 'https://drive.google.com/file/d/1k5tJ8bkFb1sEaTp41kBSdBGVBiH0dB7I/view', message: 'Một tập podcast trọn vẹn — từ mở đầu thu hút đến kết có điểm nhấn. Mình xử lý âm thanh, nhịp cắt và hình ảnh để người nghe vừa dễ theo dõi vừa muốn nghe hết.', process: PROC.long, tags: ['Podcast','Long-form','Âm thanh','Storytelling'] },
+
+  /* ===== CHIA SẺ KIẾN THỨC (16:9) ===== */
+  { title: 'Video chia sẻ kiến thức', cat: 'knowledge', lang: 'VI', url: 'https://drive.google.com/file/d/1kpnAIKeGeet9LcOCs6npO8LlhFgYZ9Qd/view', message: 'Nội dung giáo dục không nhất thiết phải khô khan — cách edit quyết định người xem có ở lại đến cuối hay không. Mình chia đoạn rõ ràng, nhấn ý bằng đồ họa và caption để kiến thức dễ tiếp thu.', process: PROC.long, tags: ['Giáo dục','Chia sẻ kiến thức','Đồ họa','Caption'] },
+  { title: 'The #1 Secret To Raising A Leader', cat: 'knowledge', lang: 'EN', url: 'https://drive.google.com/file/d/14swQuMAATFp1jLblabk5-vwl-1qEYrIf/view', message: 'Nội dung chia sẻ kiến thức về leadership (tiếng Anh). Mình dựng theo cấu trúc mở đầu — luận điểm — chốt hành động, kết hợp caption và đồ họa nhấn ý để người xem nhớ được thông điệp chính.', process: PROC.long, tags: ['Leadership','Chia sẻ kiến thức','Education','Caption'] },
+
+  /* ===== QUẢNG CÁO SỰ KIỆN (9:16) ===== */
+  { title: 'Yêu chính mình trước khi phụ thuộc người khác', cat: 'event', lang: 'VI', url: 'https://drive.google.com/file/d/1PLcpzvG-1fAslX7cu0LLTkt5EL5xq2Xj/view', message: 'Short tiếng Việt về giá trị bản thân trong các mối quan hệ. Mình chọn câu nói chạm cảm xúc làm hook, caption nhịp theo lời và nhạc nền hợp mood để giữ người xem đến cuối.', process: PROC.short, tags: ['Sự kiện','Cảm xúc','Hook','Caption'] },
+  { title: 'Reels sáng tạo', cat: 'event', lang: 'VI', url: 'https://drive.google.com/file/d/1f3DKPs_rRKwpu-71MpP5Z9lNs3-Mhxp5/view', message: 'Một video dựng theo hướng nhịp nhanh, bắt mắt. Mình tập trung vào hook mở đầu, cắt nhịp theo nhạc và caption động để giữ người xem lướt tới cuối.', process: PROC.short, tags: ['Sự kiện','Reels','Hook','Caption'] },
+  { title: 'Dating with NhiLe', cat: 'event', lang: 'VI', url: 'https://drive.google.com/file/d/14lxumlLkeD2NgLmF3VfJAXxGLvLhQmD3/view', message: 'Video thuộc series Dating with NhiLe. Mình dựng theo hướng gần gũi, đời thường, giữ được sự tự nhiên của nhân vật và nhịp cắt đủ nhanh để hợp gu người xem mạng xã hội.', process: PROC.short, tags: ['Sự kiện','Dating with NhiLe','Đời thường','Reels'] },
+
+  /* ===== TEASER (9:16) ===== */
+  { title: 'Teaser sự kiện', cat: 'teaser', lang: 'VI', url: 'https://drive.google.com/file/d/1VjRRfZO7bb_nDcQ2a6PqkbnIntYmbFTX/view', message: 'Teaser chỉ có vài giây để tạo ấn tượng — mỗi khung hình đều có chủ đích. Mình mở bằng hook mạnh, dựng nhịp nhanh và sound design gọn để khiến người xem tò mò, muốn biết thêm.', process: PROC.short, tags: ['Teaser','Hook mạnh','Nhịp nhanh','Sound design'] },
+  { title: 'Teaser ra mắt sản phẩm', cat: 'teaser', lang: 'VI', url: 'https://drive.google.com/file/d/12390Zruy8TkOalVxa00fL97R8fuJoFDP/view', message: 'Teaser ra mắt sản phẩm — nói ít nhưng đủ khiến người xem chú ý. Mình tập trung vào 3 giây đầu, motion title và tiết tấu dồn dập để tạo cảm giác chờ đợi trước ngày ra mắt.', process: PROC.short, tags: ['Teaser','Ra mắt sản phẩm','Motion title','Short-form'] },
+
+  /* ===== MEME (9:16) ===== */
+  { title: 'Meme — Dating with NhiLe', cat: 'meme', lang: 'VI', url: 'https://drive.google.com/file/d/1LJVzzYia3nE82D9KuXhR34gqLQCzqtF7/view', message: 'Video meme bắt trend, dựng để tạo tiếng cười và tăng tương tác. Mình canh timing punchline thật chuẩn, thêm text/hiệu ứng đúng nhịp để cú "chốt" hài duyên và dễ share.', process: PROC.short, tags: ['Meme','Giải trí','Bắt trend','Timing'] },
+
+  /* ===== THƯƠNG HIỆU (9:16) ===== */
+  { title: 'Cuốn thư trong phòng thờ có ý nghĩa gì?', cat: 'brand', lang: 'TikTok', poster: 'cuonthu.png', url: 'https://www.tiktok.com/@dogovannguu/video/7655904657780329744', message: 'Video kể chuyện thương hiệu cho Đồ Gỗ Văn Ngưu — mình biến một câu hỏi văn hóa ("cuốn thư trong phòng thờ có ý nghĩa gì?") thành nội dung có chiều sâu, dẫn dắt tự nhiên tới giá trị sản phẩm. Trọn gói kịch bản, giọng đọc và edit.', process: PROC.story, tags: ['Thương hiệu','Văn hóa','Kịch bản','Voice','Edit'] },
+  { title: 'Nhà chưa có phòng thờ riêng thì thiết kế thế nào?', cat: 'brand', lang: 'TikTok', thumb: '1wM0yoockIlYjhGd3sj0SE656sySz6YmG', url: 'https://www.tiktok.com/@dogovannguu/video/7661841865079033105', message: 'Video kể chuyện bán hàng do mình đảm nhận trọn gói — kịch bản, giọng đọc (voice) và edit. Mình biến một câu hỏi thực tế của khách thành nội dung vừa hữu ích vừa dẫn dắt tự nhiên đến sản phẩm của Đồ Gỗ Văn Ngưu.', process: PROC.story, tags: ['Kịch bản','Voice','Edit','TikTok','Thương hiệu'] },
+  { title: 'Ngày giỗ có cần phải buồn mới được không?', cat: 'brand', lang: 'TikTok', thumb: '1hUCW7ZynMgOhob5jGmzR4ld3YJ-3EJLP', url: 'https://www.tiktok.com/@dogovannguu/video/7662584306363206919', message: 'Trọn gói kịch bản + voice + edit. Mình chọn một góc nhìn cảm xúc, đời thường về ngày giỗ để chạm tới người xem, rồi khéo léo lồng ghép giá trị thương hiệu — nội dung "chạm" trước, bán hàng sau.', process: PROC.story, tags: ['Kịch bản','Voice','Edit','Cảm xúc','TikTok'] },
+
+
+  /* ===== QUẢNG CÁO (9:16) ===== */
+  { title: 'Quảng cáo Hoành Phi Câu Đối', cat: 'ad', lang: 'VI', url: 'https://drive.google.com/file/d/1UQHodL4oT5ectuDu3PYC1FSao63J4OtP/view', message: 'Video quảng cáo sản phẩm Hoành Phi Câu Đối cho Đồ Gỗ Văn Ngưu. Mình dùng hook tò mò để giữ chân người xem, khoe chi tiết chạm khắc bằng những cú cận cảnh và dẫn dắt tự nhiên tới giá trị sản phẩm.', process: PROC.ad, tags: ['Quảng cáo','Hoành phi câu đối','Cận cảnh','Hook','CTA'] },
+  { title: 'Quảng cáo Bàn Thờ — Top 4 loại gỗ tốt nhất', cat: 'ad', lang: 'VI', url: 'https://drive.google.com/file/d/1FoqEbgIr_LaGs5v5fu5zpf9SkXZzf_UP/view', message: 'Một video quảng cáo hoàn chỉnh cho Đồ Gỗ Văn Ngưu: mở bằng hook "Top 4 loại gỗ tốt nhất", làm nổi bật lợi ích (dùng cả đời · bảo hành 10 năm) và chốt bằng CTA "nhắn tin tư vấn". Mình xử lý cả phần đồ họa chữ để thông điệp rõ ràng, thuyết phục ngay từ khung hình đầu.', process: PROC.ad, tags: ['Quảng cáo','Bàn thờ','Đồ họa','Hook','CTA'] },
+  { title: 'Top 5 đồ thờ "đắt nhưng đáng"', cat: 'ad', lang: 'VI', url: 'https://drive.google.com/file/d/1OEXIaHcebq_C2LEqPZAO3l1LRYVS2zv_/view', message: 'Video quảng cáo dạng "Top 5" cho Đồ Gỗ Văn Ngưu — định dạng dễ xem, dễ lưu. Mình dựng theo nhịp liệt kê nhanh, mỗi sản phẩm một điểm nhấn, kèm text nổi bật để người xem nắm ngay giá trị "đắt nhưng đáng".', process: PROC.ad, tags: ['Quảng cáo','Top 5','Đồ thờ','Đồ họa','Listicle'] }
+];
+
+function getEmbedUrl(url) {
+  const yt = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/shorts\/)([a-zA-Z0-9_-]{11})/);
+  if (yt) return 'https://www.youtube.com/embed/' + yt[1] + '?autoplay=1&rel=0';
+  const drive = url.match(/drive\.google\.com\/file\/d\/([^\/]+)/);
+  if (drive) return 'https://drive.google.com/file/d/' + drive[1] + '/preview';
+  const tt = url.match(/tiktok\.com\/@[^/]+\/video\/(\d+)/);
+  if (tt) return 'https://www.tiktok.com/player/v1/' + tt[1] + '?autoplay=1&music_info=1&description=1';
+  return url;
+}
+function isTikTok(url) { return /tiktok\.com\/@[^/]+\/video\/\d+/.test(url); }
+function getThumb(v) {
+  if (v.poster) return v.poster; // ảnh thumbnail dạng file local (vd: 'cuonthu.jpg')
+  if (v.thumb) return 'https://drive.google.com/thumbnail?id=' + v.thumb + '&sz=w800';
+  const yt = v.url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/shorts\/)([a-zA-Z0-9_-]{11})/);
+  if (yt) return 'https://img.youtube.com/vi/' + yt[1] + '/mqdefault.jpg';
+  const drive = v.url.match(/drive\.google\.com\/file\/d\/([^\/]+)/);
+  if (drive) return 'https://drive.google.com/thumbnail?id=' + drive[1] + '&sz=w800';
+  return '';
+}
+/* orient(): 'h' = ngang 16:9, 'v' = dọc 9:16 */
+const HORIZONTAL_CATS = ['podcast', 'knowledge'];
+function orient(v) {
+  return HORIZONTAL_CATS.includes(v.cat) ? 'h' : 'v';
+}
+
+/* render skills */
+document.getElementById('skills-list').innerHTML = SKILLS.map(s =>
+  `<div class="skill-row">
+     <div class="skill-name"><span class="skill-badge">${s.badge}</span>${s.name}</div>
+     <div class="bar"><i style="width:${s.pct}%"></i></div>
+   </div>`).join('');
+
+/* render video sections — ảnh thumbnail gọn, bấm phát inline (không popup) */
+function cardHtml(v) {
+  const thumb = getThumb(v);
+  const o = orient(v);
+  const embed = getEmbedUrl(v.url);
+  const poster = thumb
+    ? `<img src="${thumb}" alt="${v.title}" loading="lazy" referrerpolicy="no-referrer">`
+    : `<div class="ph" style="background:linear-gradient(135deg,#12151b,#3a4048)"><div class="ph-title">${v.title}</div></div>`;
+  return `<div class="vcard">
+    <div class="vthumb ${o}" data-embed="${embed}" onclick="openLightbox(${VIDEOS.indexOf(v)})">
+      ${poster}
+      ${v.lang ? `<span class="vlang">${v.lang}</span>` : ''}
+      <div class="vplay"><svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
+    </div>
+  </div>`;
+}
+
+document.getElementById('video-sections').innerHTML = SECTIONS.map((sec, i) => {
+  const cats = sec.cats || [sec.cat];
+  const list = VIDEOS.filter(v => cats.includes(v.cat));
+  if (!list.length) return '';
+  const horiz = list.filter(v => orient(v) === 'h');
+  const vert  = list.filter(v => orient(v) === 'v');
+  const bg = i % 2 === 0 ? 'bg-cream' : 'bg-white';
+  let grids = '';
+  if (horiz.length) grids += `<div class="vgrid g2">${horiz.map(cardHtml).join('')}</div>`;
+  if (vert.length)  grids += `<div class="vgrid g3">${vert.map(cardHtml).join('')}</div>`;
+  return `<section class="section ${bg} videos">
+    <div class="wrap">
+      <h2 class="display">${sec.title}</h2>
+      <div class="sub">${sec.sub}</div>
+      ${grids}
+    </div>
+  </section>`;
+}).join('');
+
+/* Bấm vào video → phát ngay tại chỗ (thay thumbnail bằng player, không mở popup) */
+function playInline(box) {
+  if (box.dataset.playing) return;
+  box.dataset.playing = '1';
+  box.innerHTML = '<iframe src="' + box.dataset.embed + '" allow="autoplay; encrypted-media; fullscreen" allowfullscreen></iframe>';
+}
+
+/* lightbox */
+function handleCard(idx) { openLightbox(idx); }
+function openLightbox(idx) {
+  const v = VIDEOS[idx];
+  document.getElementById('lb-iframe').src = getEmbedUrl(v.url);
+  const lbVideo = document.querySelector('.lb-video');
+  lbVideo.classList.toggle('vertical', orient(v) === 'v');
+  lbVideo.classList.toggle('drive-fix', orient(v) === 'v' && !isTikTok(v.url));
+  document.getElementById('lb-badge').textContent = CAT[v.cat];
+  document.getElementById('lb-title').textContent = v.title;
+  document.getElementById('lb-message').textContent = v.message || '';
+  document.getElementById('lb-tags').innerHTML = (v.tags || []).map(t => '<span class="lb-tag">' + t + '</span>').join('');
+  document.getElementById('lightbox').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeLightbox() {
+  document.getElementById('lb-iframe').src = '';
+  document.getElementById('lightbox').classList.remove('open');
+  document.body.style.overflow = '';
+}
+document.getElementById('lb-close').addEventListener('click', closeLightbox);
+document.getElementById('lightbox').addEventListener('click', function(e){ if (e.target === this) closeLightbox(); });
+document.addEventListener('keydown', function(e){ if (e.key === 'Escape') closeLightbox(); });
+
+/* ===== CHẾ ĐỘ CHỈNH (chỉ bật khi URL có ?edit) — kéo để di chuyển, thanh trượt để zoom/xoay ===== */
+if ((location.search + location.hash).indexOf('edit') !== -1) {
+  window.addEventListener('load', function () {
+    var DEF = { img: { height: 760, rotate: 0, left: 24, bottom: 0 }, card: { x: 0, y: 0 }, heading: { x: 0, y: 0 } };
+    var state = JSON.parse(JSON.stringify(DEF));
+    var els = {
+      img:     document.querySelector('.cutout img'),
+      card:    document.querySelector('.contact-card'),
+      heading: document.querySelector('.contact .display')
+    };
+    if (!els.img || !els.card || !els.heading) return;
+
+    // vô hiệu hoá link/nút trong box khi đang chỉnh (để kéo không bị bấm nhầm)
+    document.querySelectorAll('.contact-card a').forEach(function (a) { a.style.pointerEvents = 'none'; });
+
+    function apply() {
+      els.img.style.width = 'auto';
+      els.img.style.height = state.img.height + 'px';
+      els.img.style.left = state.img.left + 'px';
+      els.img.style.bottom = state.img.bottom + 'px';
+      els.img.style.transformOrigin = 'center bottom';
+      els.img.style.transform = 'rotate(' + state.img.rotate + 'deg)';
+      els.card.style.transform = 'translate(' + state.card.x + 'px,' + state.card.y + 'px)';
+      els.heading.style.transform = 'translate(' + state.heading.x + 'px,' + state.heading.y + 'px)';
+      var out = document.getElementById('e-out');
+      if (out) out.value = valuesText();
+    }
+    function valuesText() {
+      return 'ẢNH: left:' + Math.round(state.img.left) + 'px; bottom:' + Math.round(state.img.bottom) + 'px; height:' + Math.round(state.img.height) + 'px; rotate:' + state.img.rotate + 'deg\n'
+           + 'BOX: translate(' + Math.round(state.card.x) + 'px, ' + Math.round(state.card.y) + 'px)\n'
+           + 'CHỮ: translate(' + Math.round(state.heading.x) + 'px, ' + Math.round(state.heading.y) + 'px)';
+    }
+
+    // viền + con trỏ cho biết chỗ kéo được
+    Object.keys(els).forEach(function (k) {
+      els[k].style.outline = '2px dashed rgba(232,86,47,.9)';
+      els[k].style.cursor = 'move';
+    });
+
+    var drag = null;
+    function startDrag(key) {
+      return function (e) {
+        e.preventDefault();
+        if (key === 'img') drag = { key: key, sx: e.clientX, sy: e.clientY, oa: state.img.left, ob: state.img.bottom };
+        else drag = { key: key, sx: e.clientX, sy: e.clientY, ox: state[key].x, oy: state[key].y };
+      };
+    }
+    els.img.addEventListener('mousedown', startDrag('img'));
+    els.card.addEventListener('mousedown', startDrag('card'));
+    els.heading.addEventListener('mousedown', startDrag('heading'));
+    window.addEventListener('mousemove', function (e) {
+      if (!drag) return;
+      if (drag.key === 'img') {
+        state.img.left = drag.oa + (e.clientX - drag.sx);
+        state.img.bottom = drag.ob - (e.clientY - drag.sy);
+      } else {
+        state[drag.key].x = drag.ox + (e.clientX - drag.sx);
+        state[drag.key].y = drag.oy + (e.clientY - drag.sy);
+      }
+      apply();
+    });
+    window.addEventListener('mouseup', function () { drag = null; });
+
+    // bảng điều khiển
+    var panel = document.createElement('div');
+    panel.style.cssText = 'position:fixed;top:12px;right:12px;z-index:99999;background:#12151b;color:#fff;font:13px/1.5 -apple-system,sans-serif;padding:14px;border-radius:12px;width:260px;box-shadow:0 12px 34px rgba(0,0,0,.5)';
+    panel.innerHTML = '<div style="font-weight:700;margin-bottom:6px">🎛️ Chế độ chỉnh</div>'
+      + '<div style="font-size:12px;color:#9aa;margin-bottom:10px">Kéo <b style="color:#ff8a3d">Ảnh · Box · Chữ</b> để di chuyển.</div>'
+      + '<label style="font-size:12px">Cỡ ảnh (cao): <span id="e-sv"></span></label><input id="e-scale" type="range" min="400" max="1200" step="5" value="' + state.img.height + '" style="width:100%;margin:4px 0 10px">'
+      + '<label style="font-size:12px">Xoay ảnh: <span id="e-rv"></span>°</label><input id="e-rot" type="range" min="-45" max="45" step="0.5" value="' + state.img.rotate + '" style="width:100%;margin:4px 0 10px">'
+      + '<div style="font-size:11px;color:#9aa;margin-bottom:3px">Giá trị (bôi đen &amp; Ctrl+C, hoặc bấm nút dưới):</div>'
+      + '<textarea id="e-out" readonly style="width:100%;box-sizing:border-box;background:#000;color:#8fd;padding:8px;border:0;border-radius:8px;font-size:10.5px;margin:0 0 8px;height:82px;resize:none"></textarea>'
+      + '<button id="e-copy" style="width:100%;padding:9px;border:0;border-radius:8px;background:#e8562f;color:#fff;font-weight:700;cursor:pointer">📋 Sao chép giá trị</button>'
+      + '<button id="e-reset" style="width:100%;padding:7px;border:1px solid #444;border-radius:8px;background:transparent;color:#bbb;cursor:pointer;margin-top:6px">↺ Về mặc định</button>';
+    document.body.appendChild(panel);
+
+    var sEl = panel.querySelector('#e-scale'), rEl = panel.querySelector('#e-rot');
+    var sv = panel.querySelector('#e-sv'), rv = panel.querySelector('#e-rv');
+    function labels() { sv.textContent = Math.round(state.img.height) + 'px'; rv.textContent = state.img.rotate; }
+    sEl.addEventListener('input', function (e) { state.img.height = parseFloat(e.target.value); labels(); apply(); });
+    rEl.addEventListener('input', function (e) { state.img.rotate = parseFloat(e.target.value); labels(); apply(); });
+    panel.querySelector('#e-copy').addEventListener('click', function () {
+      var btn = this, ta = document.getElementById('e-out');
+      ta.focus(); ta.select(); ta.setSelectionRange(0, 99999);
+      var ok = false;
+      try { ok = document.execCommand('copy'); } catch (e) {}
+      if (!ok && navigator.clipboard) { try { navigator.clipboard.writeText(ta.value); ok = true; } catch (e) {} }
+      btn.textContent = ok ? '✓ Đã sao chép — gửi mình nhé!' : 'Đã bôi đen — nhấn Ctrl+C';
+      setTimeout(function () { btn.textContent = '📋 Sao chép giá trị'; }, 2400);
+    });
+    panel.querySelector('#e-reset').addEventListener('click', function () {
+      state = JSON.parse(JSON.stringify(DEF));
+      sEl.value = state.img.height; rEl.value = state.img.rotate; labels(); apply();
+    });
+
+    labels();
+    apply();
+  });
+}
+</script>
+</body>
+</html>
