@@ -330,7 +330,7 @@ footer .foot-name { font-family: 'Playfair Display', serif; color: #fff; }
     <!-- [ẢNH 2] Ảnh cắt nền cạnh About. Để đổi ảnh: thay file "about.png" trong cùng thư mục.
          Chỉnh vị trí/cắt: sửa object-fit & object-position bên dưới. -->
     <div class="img-zone about-photo">
-      <img src="about.png" alt="Khanh Vy" style="position:absolute; left:-156px; top:-69px; width:172%; height:auto;" onerror="this.style.display='none'">
+      <img src="about.png" alt="Khanh Vy" style="position:absolute; left:-110px; top:-60px; width:200%; height:auto;" onerror="this.style.display='none'">
     </div>
   </div>
 </section>
@@ -587,7 +587,7 @@ document.addEventListener('keydown', function(e){ if (e.key === 'Escape') closeL
 /* ===== CHẾ ĐỘ CHỈNH (chỉ bật khi URL có ?edit) — kéo để di chuyển, thanh trượt để zoom/xoay ===== */
 if ((location.search + location.hash).indexOf('edit') !== -1) {
   setTimeout(function () {
-    var DEF = { img: { height: 867, rotate: 0, left: 24, bottom: -107 }, about: { w: 172, x: -156, y: -69 }, card: { x: 0, y: 0 }, heading: { x: 0, y: 0 } };
+    var DEF = { img: { height: 867, rotate: 0, left: 24, bottom: -107 }, about: { w: 200, x: -110, y: -60 }, card: { x: 0, y: 0 }, heading: { x: 0, y: 0 } };
     var state = JSON.parse(JSON.stringify(DEF));
     var els = {
       img:     document.querySelector('.cutout img'),
