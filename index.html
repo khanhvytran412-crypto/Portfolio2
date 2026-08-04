@@ -586,7 +586,7 @@ document.addEventListener('keydown', function(e){ if (e.key === 'Escape') closeL
 
 /* ===== CHẾ ĐỘ CHỈNH (chỉ bật khi URL có ?edit) — kéo để di chuyển, thanh trượt để zoom/xoay ===== */
 if ((location.search + location.hash).indexOf('edit') !== -1) {
-  window.addEventListener('load', function () {
+  setTimeout(function () {
     var DEF = { img: { height: 760, rotate: 0, left: 24, bottom: 0 }, about: { w: 100, x: 0, y: -40 }, card: { x: 0, y: 0 }, heading: { x: 0, y: 0 } };
     var state = JSON.parse(JSON.stringify(DEF));
     var els = {
@@ -694,7 +694,7 @@ if ((location.search + location.hash).indexOf('edit') !== -1) {
 
     labels();
     apply();
-  });
+  }, 250);
 }
 </script>
 </body>
