@@ -135,7 +135,7 @@ nav {
 .img-zone > img { width: 100%; height: 100%; object-fit: cover; object-position: center; display: block; }
 .hl { background: linear-gradient(transparent 55%, rgba(229,236,152,0.9) 55%); padding: 0 3px; font-weight: 600; }
 .about-grid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 3rem; align-items: center; }
-.about-photo { aspect-ratio: 4/5; background: transparent; }
+.about-photo { aspect-ratio: 4/5; background: transparent; position: relative; overflow: hidden; }
 .vthumb img { width: 100%; height: 100%; object-fit: cover; }
 .vthumb .ph {
   position: absolute; inset: 0; display: flex; flex-direction: column;
@@ -277,6 +277,7 @@ footer .foot-name { font-family: 'Playfair Display', serif; color: #fff; }
   .contact-grid { grid-template-columns: 1fr; }
   .cutout { transform: none; }
   .cutout img { position: static !important; left: auto !important; bottom: auto !important; width: 100% !important; height: 100% !important; }
+  .about-photo img { position: static !important; top: auto !important; left: auto !important; width: 100% !important; height: 100% !important; object-fit: cover !important; }
   .skill-row { grid-template-columns: 150px 1fr; gap: 0.9rem; }
 }
 @media (max-width: 760px) {
@@ -329,7 +330,7 @@ footer .foot-name { font-family: 'Playfair Display', serif; color: #fff; }
     <!-- [ẢNH 2] Ảnh cắt nền cạnh About. Để đổi ảnh: thay file "about.png" trong cùng thư mục.
          Chỉnh vị trí/cắt: sửa object-fit & object-position bên dưới. -->
     <div class="img-zone about-photo">
-      <img src="about.png" alt="Khanh Vy" style="object-fit:cover; object-position:center 18%;" onerror="this.style.display='none'">
+      <img src="about.png" alt="Khanh Vy" style="position:absolute; left:0; top:-40px; width:100%; height:auto;" onerror="this.style.display='none'">
     </div>
   </div>
 </section>
@@ -586,14 +587,15 @@ document.addEventListener('keydown', function(e){ if (e.key === 'Escape') closeL
 /* ===== CHẾ ĐỘ CHỈNH (chỉ bật khi URL có ?edit) — kéo để di chuyển, thanh trượt để zoom/xoay ===== */
 if ((location.search + location.hash).indexOf('edit') !== -1) {
   window.addEventListener('load', function () {
-    var DEF = { img: { height: 760, rotate: 0, left: 24, bottom: 0 }, card: { x: 0, y: 0 }, heading: { x: 0, y: 0 } };
+    var DEF = { img: { height: 760, rotate: 0, left: 24, bottom: 0 }, about: { w: 100, x: 0, y: -40 }, card: { x: 0, y: 0 }, heading: { x: 0, y: 0 } };
     var state = JSON.parse(JSON.stringify(DEF));
     var els = {
       img:     document.querySelector('.cutout img'),
+      about:   document.querySelector('.about-photo img'),
       card:    document.querySelector('.contact-card'),
       heading: document.querySelector('.contact .display')
     };
-    if (!els.img || !els.card || !els.heading) return;
+    if (!els.img || !els.about || !els.card || !els.heading) return;
 
     // vô hiệu hoá link/nút trong box khi đang chỉnh (để kéo không bị bấm nhầm)
     document.querySelectorAll('.contact-card a').forEach(function (a) { a.style.pointerEvents = 'none'; });
@@ -605,13 +607,18 @@ if ((location.search + location.hash).indexOf('edit') !== -1) {
       els.img.style.bottom = state.img.bottom + 'px';
       els.img.style.transformOrigin = 'center bottom';
       els.img.style.transform = 'rotate(' + state.img.rotate + 'deg)';
+      els.about.style.width = state.about.w + '%';
+      els.about.style.height = 'auto';
+      els.about.style.left = state.about.x + 'px';
+      els.about.style.top = state.about.y + 'px';
       els.card.style.transform = 'translate(' + state.card.x + 'px,' + state.card.y + 'px)';
       els.heading.style.transform = 'translate(' + state.heading.x + 'px,' + state.heading.y + 'px)';
       var out = document.getElementById('e-out');
       if (out) out.value = valuesText();
     }
     function valuesText() {
-      return 'ẢNH: left:' + Math.round(state.img.left) + 'px; bottom:' + Math.round(state.img.bottom) + 'px; height:' + Math.round(state.img.height) + 'px; rotate:' + state.img.rotate + 'deg\n'
+      return 'ẢNH CONTACT: left:' + Math.round(state.img.left) + 'px; bottom:' + Math.round(state.img.bottom) + 'px; height:' + Math.round(state.img.height) + 'px; rotate:' + state.img.rotate + 'deg\n'
+           + 'ẢNH ABOUT: left:' + Math.round(state.about.x) + 'px; top:' + Math.round(state.about.y) + 'px; width:' + Math.round(state.about.w) + '%\n'
            + 'BOX: translate(' + Math.round(state.card.x) + 'px, ' + Math.round(state.card.y) + 'px)\n'
            + 'CHỮ: translate(' + Math.round(state.heading.x) + 'px, ' + Math.round(state.heading.y) + 'px)';
     }
@@ -627,10 +634,12 @@ if ((location.search + location.hash).indexOf('edit') !== -1) {
       return function (e) {
         e.preventDefault();
         if (key === 'img') drag = { key: key, sx: e.clientX, sy: e.clientY, oa: state.img.left, ob: state.img.bottom };
+        else if (key === 'about') drag = { key: key, sx: e.clientX, sy: e.clientY, oa: state.about.x, ob: state.about.y };
         else drag = { key: key, sx: e.clientX, sy: e.clientY, ox: state[key].x, oy: state[key].y };
       };
     }
     els.img.addEventListener('mousedown', startDrag('img'));
+    els.about.addEventListener('mousedown', startDrag('about'));
     els.card.addEventListener('mousedown', startDrag('card'));
     els.heading.addEventListener('mousedown', startDrag('heading'));
     window.addEventListener('mousemove', function (e) {
@@ -638,6 +647,9 @@ if ((location.search + location.hash).indexOf('edit') !== -1) {
       if (drag.key === 'img') {
         state.img.left = drag.oa + (e.clientX - drag.sx);
         state.img.bottom = drag.ob - (e.clientY - drag.sy);
+      } else if (drag.key === 'about') {
+        state.about.x = drag.oa + (e.clientX - drag.sx);
+        state.about.y = drag.ob + (e.clientY - drag.sy);
       } else {
         state[drag.key].x = drag.ox + (e.clientX - drag.sx);
         state[drag.key].y = drag.oy + (e.clientY - drag.sy);
@@ -650,20 +662,22 @@ if ((location.search + location.hash).indexOf('edit') !== -1) {
     var panel = document.createElement('div');
     panel.style.cssText = 'position:fixed;top:12px;right:12px;z-index:99999;background:#12151b;color:#fff;font:13px/1.5 -apple-system,sans-serif;padding:14px;border-radius:12px;width:260px;box-shadow:0 12px 34px rgba(0,0,0,.5)';
     panel.innerHTML = '<div style="font-weight:700;margin-bottom:6px">🎛️ Chế độ chỉnh</div>'
-      + '<div style="font-size:12px;color:#9aa;margin-bottom:10px">Kéo <b style="color:#ff8a3d">Ảnh · Box · Chữ</b> để di chuyển.</div>'
-      + '<label style="font-size:12px">Cỡ ảnh (cao): <span id="e-sv"></span></label><input id="e-scale" type="range" min="400" max="1200" step="5" value="' + state.img.height + '" style="width:100%;margin:4px 0 10px">'
-      + '<label style="font-size:12px">Xoay ảnh: <span id="e-rv"></span>°</label><input id="e-rot" type="range" min="-45" max="45" step="0.5" value="' + state.img.rotate + '" style="width:100%;margin:4px 0 10px">'
+      + '<div style="font-size:12px;color:#9aa;margin-bottom:10px">Kéo <b style="color:#ff8a3d">các vùng viền cam</b> (ảnh About, ảnh Contact, box, chữ) để di chuyển.</div>'
+      + '<label style="font-size:12px">Cỡ ảnh Contact: <span id="e-sv"></span></label><input id="e-scale" type="range" min="400" max="1200" step="5" value="' + state.img.height + '" style="width:100%;margin:4px 0 8px">'
+      + '<label style="font-size:12px">Xoay ảnh Contact: <span id="e-rv"></span>°</label><input id="e-rot" type="range" min="-45" max="45" step="0.5" value="' + state.img.rotate + '" style="width:100%;margin:4px 0 8px">'
+      + '<label style="font-size:12px">Cỡ ảnh About: <span id="e-av"></span>%</label><input id="e-abw" type="range" min="60" max="240" step="1" value="' + state.about.w + '" style="width:100%;margin:4px 0 10px">'
       + '<div style="font-size:11px;color:#9aa;margin-bottom:3px">Giá trị (bôi đen &amp; Ctrl+C, hoặc bấm nút dưới):</div>'
       + '<textarea id="e-out" readonly style="width:100%;box-sizing:border-box;background:#000;color:#8fd;padding:8px;border:0;border-radius:8px;font-size:10.5px;margin:0 0 8px;height:82px;resize:none"></textarea>'
       + '<button id="e-copy" style="width:100%;padding:9px;border:0;border-radius:8px;background:#e8562f;color:#fff;font-weight:700;cursor:pointer">📋 Sao chép giá trị</button>'
       + '<button id="e-reset" style="width:100%;padding:7px;border:1px solid #444;border-radius:8px;background:transparent;color:#bbb;cursor:pointer;margin-top:6px">↺ Về mặc định</button>';
     document.body.appendChild(panel);
 
-    var sEl = panel.querySelector('#e-scale'), rEl = panel.querySelector('#e-rot');
-    var sv = panel.querySelector('#e-sv'), rv = panel.querySelector('#e-rv');
-    function labels() { sv.textContent = Math.round(state.img.height) + 'px'; rv.textContent = state.img.rotate; }
+    var sEl = panel.querySelector('#e-scale'), rEl = panel.querySelector('#e-rot'), abEl = panel.querySelector('#e-abw');
+    var sv = panel.querySelector('#e-sv'), rv = panel.querySelector('#e-rv'), av = panel.querySelector('#e-av');
+    function labels() { sv.textContent = Math.round(state.img.height) + 'px'; rv.textContent = state.img.rotate; av.textContent = Math.round(state.about.w); }
     sEl.addEventListener('input', function (e) { state.img.height = parseFloat(e.target.value); labels(); apply(); });
     rEl.addEventListener('input', function (e) { state.img.rotate = parseFloat(e.target.value); labels(); apply(); });
+    abEl.addEventListener('input', function (e) { state.about.w = parseFloat(e.target.value); labels(); apply(); });
     panel.querySelector('#e-copy').addEventListener('click', function () {
       var btn = this, ta = document.getElementById('e-out');
       ta.focus(); ta.select(); ta.setSelectionRange(0, 99999);
@@ -675,7 +689,7 @@ if ((location.search + location.hash).indexOf('edit') !== -1) {
     });
     panel.querySelector('#e-reset').addEventListener('click', function () {
       state = JSON.parse(JSON.stringify(DEF));
-      sEl.value = state.img.height; rEl.value = state.img.rotate; labels(); apply();
+      sEl.value = state.img.height; rEl.value = state.img.rotate; abEl.value = state.about.w; labels(); apply();
     });
 
     labels();
