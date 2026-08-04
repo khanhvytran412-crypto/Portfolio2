@@ -330,7 +330,7 @@ footer .foot-name { font-family: 'Playfair Display', serif; color: #fff; }
     <!-- [ẢNH 2] Ảnh cắt nền cạnh About. Để đổi ảnh: thay file "about.png" trong cùng thư mục.
          Chỉnh vị trí/cắt: sửa object-fit & object-position bên dưới. -->
     <div class="img-zone about-photo">
-      <img src="about.png" alt="Khanh Vy" style="position:absolute; left:0; top:-40px; width:100%; height:auto;" onerror="this.style.display='none'">
+      <img src="about.png" alt="Khanh Vy" style="position:absolute; left:-64px; top:-52px; width:130%; height:auto;" onerror="this.style.display='none'">
     </div>
   </div>
 </section>
@@ -372,7 +372,7 @@ footer .foot-name { font-family: 'Playfair Display', serif; color: #fff; }
       <!-- [ẢNH 3] Ảnh cắt nền ở Contact. Để đổi ảnh: thay file "contact.png" trong cùng thư mục.
            Ảnh cắt nền nên để object-fit:contain (hiện trọn người, không cắt). -->
       <div class="img-zone cutout">
-        <img src="contact.png" alt="Khanh Vy" style="position:absolute; left:24px; bottom:0; height:760px; width:auto; object-fit:contain; object-position:center bottom;" onerror="this.style.display='none'">
+        <img src="contact.png" alt="Khanh Vy" style="position:absolute; left:24px; bottom:-228px; height:988px; width:auto; object-fit:contain; object-position:center bottom;" onerror="this.style.display='none'">
       </div>
       <div class="contact-card">
         <div class="contact-line"><b>SĐT / Zalo:</b> 0365378921</div>
@@ -587,7 +587,7 @@ document.addEventListener('keydown', function(e){ if (e.key === 'Escape') closeL
 /* ===== CHẾ ĐỘ CHỈNH (chỉ bật khi URL có ?edit) — kéo để di chuyển, thanh trượt để zoom/xoay ===== */
 if ((location.search + location.hash).indexOf('edit') !== -1) {
   setTimeout(function () {
-    var DEF = { img: { height: 760, rotate: 0, left: 24, bottom: 0 }, about: { w: 100, x: 0, y: -40 }, card: { x: 0, y: 0 }, heading: { x: 0, y: 0 } };
+    var DEF = { img: { height: 988, rotate: 0, left: 24, bottom: -228 }, about: { w: 130, x: -64, y: -52 }, card: { x: 0, y: 0 }, heading: { x: 0, y: 0 } };
     var state = JSON.parse(JSON.stringify(DEF));
     var els = {
       img:     document.querySelector('.cutout img'),
