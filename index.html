@@ -440,7 +440,7 @@ const SKILLS = [
 const CAT = {
   'podcast': 'Podcast',
   'knowledge': 'Chia sẻ kiến thức',
-  'event': 'Quảng cáo sự kiện',
+  'event': 'PR event',
   'teaser': 'Teaser',
   'meme': 'Meme',
   'brand': 'Thương hiệu',
@@ -451,7 +451,7 @@ const CAT = {
 const SECTIONS = [
   { cat: 'podcast',   title: 'video podcast',              sub: 'Podcast dài, edit sạch, giữ mạch câu chuyện' },
   { cat: 'knowledge', title: 'video chia sẻ kiến thức',    sub: 'Nội dung giáo dục, dễ hiểu, giữ chân người xem' },
-  { cat: 'event',     title: 'video quảng cáo sự kiện',    sub: 'Nhịp nhanh, cảm xúc, lan tỏa cho sự kiện' },
+  { cat: 'event',     title: 'video pr event',             sub: 'Nhịp nhanh, cảm xúc, lan tỏa cho sự kiện' },
   { cats: ['teaser','meme'], title: 'video teaser & meme', sub: 'Teaser tạo tò mò · meme bắt trend, tăng tương tác' },
   { cat: 'brand',     title: 'video kể chuyện thương hiệu', sub: 'Trọn gói kịch bản · voice · edit — Đồ Gỗ Văn Ngưu' },
   { cat: 'ad',        title: 'video quảng cáo',            sub: 'Video quảng cáo sản phẩm' }
@@ -476,9 +476,9 @@ const VIDEOS = [
   { title: 'The #1 Secret To Raising A Leader', cat: 'knowledge', lang: 'EN', url: 'https://drive.google.com/file/d/14swQuMAATFp1jLblabk5-vwl-1qEYrIf/view', message: 'Nội dung chia sẻ kiến thức về leadership (tiếng Anh). Mình dựng theo cấu trúc mở đầu — luận điểm — chốt hành động, kết hợp caption và đồ họa nhấn ý để người xem nhớ được thông điệp chính.', process: PROC.long, tags: ['Leadership','Chia sẻ kiến thức','Education','Caption'] },
 
   /* ===== QUẢNG CÁO SỰ KIỆN (9:16) ===== */
-  { title: 'Yêu chính mình trước khi phụ thuộc người khác', cat: 'event', lang: 'VI', url: 'https://drive.google.com/file/d/1PLcpzvG-1fAslX7cu0LLTkt5EL5xq2Xj/view', message: 'Short tiếng Việt về giá trị bản thân trong các mối quan hệ. Mình chọn câu nói chạm cảm xúc làm hook, caption nhịp theo lời và nhạc nền hợp mood để giữ người xem đến cuối.', process: PROC.short, tags: ['Sự kiện','Cảm xúc','Hook','Caption'] },
-  { title: 'Reels sáng tạo', cat: 'event', lang: 'VI', url: 'https://drive.google.com/file/d/1f3DKPs_rRKwpu-71MpP5Z9lNs3-Mhxp5/view', message: 'Một video dựng theo hướng nhịp nhanh, bắt mắt. Mình tập trung vào hook mở đầu, cắt nhịp theo nhạc và caption động để giữ người xem lướt tới cuối.', process: PROC.short, tags: ['Sự kiện','Reels','Hook','Caption'] },
-  { title: 'Dating with NhiLe', cat: 'event', lang: 'VI', url: 'https://drive.google.com/file/d/14lxumlLkeD2NgLmF3VfJAXxGLvLhQmD3/view', message: 'Video thuộc series Dating with NhiLe. Mình dựng theo hướng gần gũi, đời thường, giữ được sự tự nhiên của nhân vật và nhịp cắt đủ nhanh để hợp gu người xem mạng xã hội.', process: PROC.short, tags: ['Sự kiện','Dating with NhiLe','Đời thường','Reels'] },
+  { title: 'Khóa học "Là chính mình"', cat: 'event', lang: 'VI', url: 'https://drive.google.com/file/d/1PLcpzvG-1fAslX7cu0LLTkt5EL5xq2Xj/view', message: 'Short tiếng Việt về giá trị bản thân trong các mối quan hệ. Mình chọn câu nói chạm cảm xúc làm hook, caption nhịp theo lời và nhạc nền hợp mood để giữ người xem đến cuối.', process: PROC.short, tags: ['Sự kiện','Cảm xúc','Hook','Caption'] },
+  { title: 'Khóa học "30 Days"', cat: 'event', lang: 'VI', url: 'https://drive.google.com/file/d/1f3DKPs_rRKwpu-71MpP5Z9lNs3-Mhxp5/view', message: 'Một video dựng theo hướng nhịp nhanh, bắt mắt. Mình tập trung vào hook mở đầu, cắt nhịp theo nhạc và caption động để giữ người xem lướt tới cuối.', process: PROC.short, tags: ['Sự kiện','Reels','Hook','Caption'] },
+  { title: 'Sự kiện "Dating with NhiLe Team"', cat: 'event', lang: 'VI', url: 'https://drive.google.com/file/d/14lxumlLkeD2NgLmF3VfJAXxGLvLhQmD3/view', message: 'Video thuộc series Dating with NhiLe. Mình dựng theo hướng gần gũi, đời thường, giữ được sự tự nhiên của nhân vật và nhịp cắt đủ nhanh để hợp gu người xem mạng xã hội.', process: PROC.short, tags: ['Sự kiện','Dating with NhiLe','Đời thường','Reels'] },
 
   /* ===== TEASER (9:16) ===== */
   { title: 'Teaser sự kiện', cat: 'teaser', lang: 'VI', url: 'https://drive.google.com/file/d/1VjRRfZO7bb_nDcQ2a6PqkbnIntYmbFTX/view', message: 'Teaser chỉ có vài giây để tạo ấn tượng — mỗi khung hình đều có chủ đích. Mình mở bằng hook mạnh, dựng nhịp nhanh và sound design gọn để khiến người xem tò mò, muốn biết thêm.', process: PROC.short, tags: ['Teaser','Hook mạnh','Nhịp nhanh','Sound design'] },
