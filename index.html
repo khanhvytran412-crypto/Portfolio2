@@ -472,7 +472,7 @@ const PROC = {
 
 const VIDEOS = [
   /* ===== TALKING HEAD & MINI VLOG (9:16) ===== */
-  { title: 'Talking Head', cat: 'talkinghead', lang: 'VI', url: 'https://drive.google.com/file/d/1ruC3Epukzb8mNkrclSQnqcWTCmoJmOOm/view', message: 'Video talking head — chỉ có một người nói trước camera, nên nhịp cắt và caption phải giữ được sự tự nhiên mà vẫn cuốn. Mình cắt bỏ khoảng lặng thừa, nhấn ý bằng caption động và giữ mạch cảm xúc để người xem ở lại đến cuối.', process: PROC.short, tags: ['Talking Head','Caption','Nhịp cắt','Tự nhiên'] },
+  { title: 'Talking Head', cat: 'talkinghead', ar: 'h', lang: 'VI', url: 'https://drive.google.com/file/d/1ruC3Epukzb8mNkrclSQnqcWTCmoJmOOm/view', message: 'Video talking head — chỉ có một người nói trước camera, nên nhịp cắt và caption phải giữ được sự tự nhiên mà vẫn cuốn. Mình cắt bỏ khoảng lặng thừa, nhấn ý bằng caption động và giữ mạch cảm xúc để người xem ở lại đến cuối.', process: PROC.short, tags: ['Talking Head','Caption','Nhịp cắt','Tự nhiên'] },
   { title: 'Mini Vlog', cat: 'talkinghead', lang: 'VI', url: 'https://drive.google.com/file/d/1xRstVw99l9XP3DstQxo9FyEKEpodVybF/view', message: 'Mini vlog kể một lát cắt đời thường — mình dựng theo mạch cảm xúc, chọn nhạc nền hợp mood và giữ nhịp đủ nhẹ nhàng để người xem thấy gần gũi, dễ đồng cảm.', process: PROC.short, tags: ['Mini Vlog','Đời thường','Cảm xúc','Storytelling'] },
 
   /* ===== PODCAST (16:9) ===== */
@@ -528,6 +528,7 @@ function getThumb(v) {
 /* orient(): 'h' = ngang 16:9, 'v' = dọc 9:16 */
 const HORIZONTAL_CATS = ['podcast', 'knowledge'];
 function orient(v) {
+  if (v.ar) return v.ar;   // override tỉ lệ theo từng video: 'h' = ngang 16:9, 'v' = dọc 9:16
   return HORIZONTAL_CATS.includes(v.cat) ? 'h' : 'v';
 }
 
